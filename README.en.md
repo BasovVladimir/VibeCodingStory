@@ -67,6 +67,15 @@ building. Trust Claude with 100% of the project and you'll walk in circles, buil
 at the end while breaking a piece at the start. For a more concrete sense of this, look at the
 architecture in myTrade or write to me.
 
+**4. The neural net understands itself better than it understands you.** Every one of my
+projects has a mandatory rule about AI comments. Claude — or any other model — leaves comments
+addressed to itself, right there in the text, so that it doesn't trip over the same rake twice
+and makes fewer mistakes overall. This works better than keeping documentation somewhere and
+making notes of that kind off to the side. There are plenty of ways to optimise development
+(graphs, Qoder's wiki for development, and so on) — I'm sure you'll find the one you need. What
+I use is comments plus grep on the AI's side within a project. The main thing is to use
+something, and ideally from the very start of the project.
+
 ## How the work is arranged
 
 At any given moment I have **3–4 projects running autonomously** and **one that needs my full
