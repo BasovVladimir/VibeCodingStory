@@ -9,20 +9,6 @@
 **57 commits · July–August 2026 · architects Kimi K3 and Qwen 3.8 Max**
 The functionality works; ~30% of the plan is delivered.
 
-## The goal
-
-I wanted to build myself a virtual GP that would track my metrics and answer my questions
-**without prescribing anything**. This is purely informational; everything else belongs with a
-doctor.
-Health data lives in three unconnected places: doctors' reports and lab results are on paper and
-in PDFs, daily metrics are in Apple Health, sleep and activity are in the fitness band's app.
-Taken separately each source is almost useless: you can't see the trend, and at the appointment
-you remember the wrong things in the wrong way.
-
-The system brings them together into **a single picture**: it puts the data in order, shows the
-trend, tracks progress towards goals and helps prepare for an appointment — including by
-producing a list of **questions to ask the doctor**.
-
 ## ⚠️ Two invariants that matter more than any feature
 
 This project is about medical data, so two constraints here are stricter than any technical one:
@@ -57,7 +43,21 @@ done by the architect, and that isn't up for discussion.
 
 A report after each task, **no merges happen without me**, and a full test run before the merge.
 
-## How it works
+## The goal
+
+I wanted to build myself a virtual GP that would track my metrics and answer my questions
+**without prescribing anything**. This is purely informational; everything else belongs with a
+doctor.
+Health data lives in three unconnected places: doctors' reports and lab results are on paper and
+in PDFs, daily metrics are in Apple Health, sleep and activity are in the fitness band's app.
+Taken separately each source is almost useless: you can't see the trend, and at the appointment
+you remember the wrong things in the wrong way.
+
+The system brings them together into **a single picture**: it puts the data in order, shows the
+trend, tracks progress towards goals and helps prepare for an appointment — including by
+producing a list of **questions to ask the doctor**.
+
+## What it does and how it works
 
 ```
 Apple Health export.xml ─┐
@@ -77,6 +77,22 @@ devices.
 **Doctors' reports** go through a PDF pipeline: the text layer is taken directly, and if a page
 turns out to be a scan, OCR kicks in. A recognition error on one page doesn't take down the whole
 document — it's flagged right there in the text.
+
+### Interface
+
+**There's no frontend yet, but one is planned — for metric trends.** For now the only interface
+is an HTTP JSON API, with routes grouped by entity: measurements, documents, the health picture,
+and a liveness check.
+
+**Swagger here works not as documentation but as a temporary UI.** There are no developers on
+this project who'd need the spec — but there is me, and I need to enter a measurement by hand,
+open the picture for a period and check that a document was recognised. FastAPI gives you the
+interactive page for free, and it's enough right up until trend charts are needed: that's when a
+frontend will appear.
+
+The order is deliberate: data and analytics first, the interface only when you genuinely can't
+manage without it. I'm on my own here, and every hour not spent on markup goes into what the
+project actually exists for.
 
 ## Architecture
 
@@ -123,7 +139,7 @@ it.
 That portability is exactly what a single working method is for: a pipeline written for financial
 statements closed a task in a health project in one pass.
 
-## Data model
+### Data model
 
 | Entity | What it holds |
 |---|---|
@@ -138,22 +154,6 @@ Two more are planned: **Goal** — the owner's goal with a category (ongoing, li
 recurring, like losing weight) — and **Checkin**, a weekly note on how you're feeling. For goals
 like posture there's no instrument to measure progress with, so the data source is honestly
 labelled "as reported by the owner" — and that's its own field.
-
-## Interface
-
-**There's no frontend yet, but one is planned — for metric trends.** For now the only interface
-is an HTTP JSON API, with routes grouped by entity: measurements, documents, the health picture,
-and a liveness check.
-
-**Swagger here works not as documentation but as a temporary UI.** There are no developers on
-this project who'd need the spec — but there is me, and I need to enter a measurement by hand,
-open the picture for a period and check that a document was recognised. FastAPI gives you the
-interactive page for free, and it's enough right up until trend charts are needed: that's when a
-frontend will appear.
-
-The order is deliberate: data and analytics first, the interface only when you genuinely can't
-manage without it. I'm on my own here, and every hour not spent on markup goes into what the
-project actually exists for.
 
 ## Project structure
 
@@ -206,7 +206,7 @@ fixtures. The first run against real data is always done by the architect.
    text, the structured findings and a link to the file.
 6. **Tests on synthetic data**, and no change is handed in without a green run.
 
-## Key mistakes and how we handled them
+## Key mistakes
 
 This project is younger than the others and started **on rules that already existed** — the whole
 body of practices was carried over from reports, together with the reasoning behind it. So there
@@ -235,7 +235,7 @@ honestly entered both records, and the trend broke.
 **Fix:** idempotent import as an invariant rather than a feature: loading the same file again is
 required to leave the database state unchanged. It's covered by a test.
 
-## Development plans
+## What's built and what's next
 
 Four epics are closed: the skeleton (API, DB, Apple Health import, the overall picture), the
 coder scaffolding, document intake with the PDF pipeline, and the fitness band import.

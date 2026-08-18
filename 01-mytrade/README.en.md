@@ -69,7 +69,9 @@ survived the procedure**. Three things follow from it, and they define how the s
 - compute doesn't relax the discipline, it tightens it. The wider the search, the more random
   winners slip through the checks.
 
-## How it works: the screening funnel
+## What it does and how it works
+
+### The screening funnel
 
 A full run means hours of computation, so before it a candidate passes **six cheap gates**, in
 increasing order of cost. Fail any of them and the verdict is issued right there; we go no
@@ -103,7 +105,7 @@ instead of a peak (we read the shape of the surface: a flat centre with slopes i
 spike is not) → checking the cloud on new data → significance deflation across every attempt →
 the power gate → the stopping rule → the held-out chunk and a forward test on the live stream.
 
-## The oracle: a map of where there's actually meat
+### The oracle: a map of where there's actually meat
 
 A separate machine computes the ceiling of an all-knowing trader: what someone who knows all
 future prices in advance would have taken — already net of honest costs. Inside it's dynamic
@@ -129,6 +131,30 @@ have to look where costs don't eat the gain. "The best pair out of three hundred
 selection in hindsight. There are no universal "meat / thin / dead" thresholds: a cell holds a
 number, and the bar is read through the lower bound of what's achievable for that particular
 strategy.
+
+### Regression research: "a strategy as an equation"
+
+A separate machine answers two questions before any trading logic exists: **does the variable
+have an effect** on the target event, and **is that effect alive over time** — it's effectively
+the factory for all new strategies.
+
+```
+hypothesis (object + event + a SMALL, declared menu of variables)
+   → feature dataset with no look-ahead
+   → partial effects: multifactor, autocorrelation correction, multicollinearity control
+        🚦 no effect → stop, cheaply
+   → effect-strength curves over time + break tests + half-life of the effect
+        🚦 the effect is dead or chaotic → stop
+   → the exam: "did it predict forward, continuously?"
+        🚦 it didn't → stop, an expensive funnel saved
+   → explanation through market regime → candidate mechanic → the full funnel
+```
+
+The discipline here is stricter than the computation itself. The menu of variables is ordered
+before the run, thresholds are declared in advance, the windows for the strength curves are
+fixed, and if verdicts across windows disagree we take the worst one. Otherwise it goes like
+this: you pick the "main" variable after the run, based on how pretty the result is — and that's
+already curve-fitting, it's just invisible from the outside.
 
 ## Architecture
 
@@ -167,31 +193,7 @@ are touched read-only or additively: a new parameter always has a default, so th
 existing strategies stays byte-for-byte identical. That requirement is hard and not open to
 discussion.
 
-## Regression research: "a strategy as an equation"
-
-A separate machine answers two questions before any trading logic exists: **does the variable
-have an effect** on the target event, and **is that effect alive over time** — it's effectively
-the factory for all new strategies.
-
-```
-hypothesis (object + event + a SMALL, declared menu of variables)
-   → feature dataset with no look-ahead
-   → partial effects: multifactor, autocorrelation correction, multicollinearity control
-        🚦 no effect → stop, cheaply
-   → effect-strength curves over time + break tests + half-life of the effect
-        🚦 the effect is dead or chaotic → stop
-   → the exam: "did it predict forward, continuously?"
-        🚦 it didn't → stop, an expensive funnel saved
-   → explanation through market regime → candidate mechanic → the full funnel
-```
-
-The discipline here is stricter than the computation itself. The menu of variables is ordered
-before the run, thresholds are declared in advance, the windows for the strength curves are
-fixed, and if verdicts across windows disagree we take the worst one. Otherwise it goes like
-this: you pick the "main" variable after the run, based on how pretty the result is — and that's
-already curve-fitting, it's just invisible from the outside.
-
-## Infrastructure: three nodes with opposite workloads
+## Infrastructure
 
 | Node | What it does | What matters |
 |---|---|---|
@@ -282,7 +284,7 @@ less often, even though it's the one holding the Architect role right now.
    with this formulation".
 8. **The data collector is untouchable.** Any destructive operation means stop and ask.
 
-## Key mistakes and how we handled them
+## Key mistakes
 
 **1. A test nearly wiped out the collector.**
 Storage holds hundreds of millions of bars, accumulated over months on a schedule, and they

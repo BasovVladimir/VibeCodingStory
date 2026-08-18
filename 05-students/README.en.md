@@ -22,20 +22,6 @@ judgement about a living person, not a report. So every epic describes **exactly
 takes off my hands** and states explicitly where the boundary runs: what the code does and what
 stays with the agent.
 
-## The goal
-
-I train full-stack analysts: a business school, a university, private mentoring. Around every
-student a routine piles up that doesn't scale: video recordings of meetings, a personal plan
-covering hundreds of topics and questions, a summary of each meeting, a review of their project,
-marks, growth areas.
-With one student that fits in your head. With several it doesn't.
-
-The system takes over the preparation and the storage, **without taking over the judgement**:
-the student and their path stay in the conversation, not in a database.
-
-Video transcription runs **locally on the laptop's GPU** rather than in the cloud: meeting files
-are large, and there's no reason to push them outside.
-
 ## How I work with the agent
 
 The rhythm here is set by the meetings with students.
@@ -57,7 +43,21 @@ itself. The coder spins in an autonomous loop, but the runner neither merges nor
 comes out of its work is a branch and a report, then the architect decides and I accept. **No
 merges happen without me**, and the 50-check gate has to be green.
 
-## How it works
+## The goal
+
+I train full-stack analysts: a business school, a university, private mentoring. Around every
+student a routine piles up that doesn't scale: video recordings of meetings, a personal plan
+covering hundreds of topics and questions, a summary of each meeting, a review of their project,
+marks, growth areas.
+With one student that fits in your head. With several it doesn't.
+
+The system takes over the preparation and the storage, **without taking over the judgement**:
+the student and their path stay in the conversation, not in a database.
+
+Video transcription runs **locally on the laptop's GPU** rather than in the cloud: meeting files
+are large, and there's no reason to push them outside.
+
+## What it does and how it works
 
 **The meeting cycle** is the main working loop:
 
@@ -89,6 +89,20 @@ What's looked for first is cross-cutting patterns rather than typos: a mismatch 
 status-centric logic, endpoint collisions, boilerplate tails left over from someone else's
 project.
 
+### Tools
+
+| Tool | What it does |
+|---|---|
+| **the `mentor` core** | CLI + SQLite: students, meetings, plan topics and their status, artefacts; importers from xlsx and markdown |
+| **meeting transcription** | video → text, timecodes, speaker labelling; locally, offline |
+| **reading specs from the wiki** | mirroring a student's project locally, read-only; a new student is two lines of config, with no code changes |
+| **the gate and the autonomous loop** | executable acceptance criteria + launching the coder from a task manifest |
+| **limit consumption measurement** | counts calls, average context and the total spend area across a session transcript |
+
+⚠️ The "mentor / student" roles in speaker labelling are **a guess based on speaking time**, and
+that's written down in the reference document: the agent is required to verify it against the
+content rather than take it on trust.
+
 ## Architecture
 
 **The data is the truth; the code isn't the source.** That's the project's main decision and it's
@@ -115,20 +129,6 @@ a work order: diff comparison, a list of untracked files, checksums of the datab
 and the gate itself are out of reach of the autonomous loop. And the runner **neither merges nor
 pushes**: the output of the coder's work is a branch and a report, and the architect makes the
 call.
-
-## Tools
-
-| Tool | What it does |
-|---|---|
-| **the `mentor` core** | CLI + SQLite: students, meetings, plan topics and their status, artefacts; importers from xlsx and markdown |
-| **meeting transcription** | video → text, timecodes, speaker labelling; locally, offline |
-| **reading specs from the wiki** | mirroring a student's project locally, read-only; a new student is two lines of config, with no code changes |
-| **the gate and the autonomous loop** | executable acceptance criteria + launching the coder from a task manifest |
-| **limit consumption measurement** | counts calls, average context and the total spend area across a session transcript |
-
-⚠️ The "mentor / student" roles in speaker labelling are **a guess based on speaking time**, and
-that's written down in the reference document: the agent is required to verify it against the
-content rather than take it on trust.
 
 ## Project structure
 
@@ -188,7 +188,7 @@ main context and gets dragged through the whole session.
 6. **Tests are mandatory and never touch real data** — synthetic fixtures only, and they don't
    reach the network.
 
-## Key mistakes and how we handled them
+## Key mistakes
 
 **1. The agent "improved" the canon — and carried the defective version forward.**
 A stable block in the meeting summaries had been word-for-word identical across three summaries
@@ -240,7 +240,7 @@ wrong result.
 - **Formulas in the plan.** Rows with averaging are edited surgically only, and the file has to be
   closed first, otherwise the edit is lost.
 
-## Development plans
+## What's built and what's next
 
 **The core is done** — storage, CLI and importers are accepted: the gate's **50 checks are
 green**, with **108** tests. The import has been run in on real data: 3 personal plans (222 topics

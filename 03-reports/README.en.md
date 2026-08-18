@@ -9,22 +9,6 @@
 **601 commits · June–August 2026 · architect Claude Opus 5**
 Working; the development plan continues.
 
-## The goal
-
-I'm a long-term investor in the Russian market. A decision about an issuer is made from
-financial statements, news, price and the current portfolio, not from a feel for the market —
-and months pass between such decisions, long enough to forget everything.
-
-The system solves exactly that: **it accumulates primary sources and, on a set cadence, turns
-them into decisions**. Financial statements, news, prices, the portfolio and macro data go into
-a database, and from there they're assembled on schedule into an issuer card, a quarterly review
-and a rebalance.
-
-The whole architecture grew out of one constraint: **an investment decision is made from a
-table, without opening the primary source**. Which means the cost of an error in the data is
-real money, and an "approximately right" value is worse than a missing one. An empty field is
-visible immediately, while a wrong number looks exactly like a right one.
-
 ## How I work with the agent
 
 There are two modes here, and they barely overlap.
@@ -49,7 +33,23 @@ the logic, not the code — by what rule is this number computed now, where does
 what happens if the source goes silent. Tests catch broken code well, but they never ask "does
 this number even make sense?"
 
-## How it works
+## The goal
+
+I'm a long-term investor in the Russian market. A decision about an issuer is made from
+financial statements, news, price and the current portfolio, not from a feel for the market —
+and months pass between such decisions, long enough to forget everything.
+
+The system solves exactly that: **it accumulates primary sources and, on a set cadence, turns
+them into decisions**. Financial statements, news, prices, the portfolio and macro data go into
+a database, and from there they're assembled on schedule into an issuer card, a quarterly review
+and a rebalance.
+
+The whole architecture grew out of one constraint: **an investment decision is made from a
+table, without opening the primary source**. Which means the cost of an error in the data is
+real money, and an "approximately right" value is worse than a missing one. An empty field is
+visible immediately, while a wrong number looks exactly like a right one.
+
+## What it does and how it works
 
 The system lives by **rhythms** rather than continuous work:
 
@@ -86,6 +86,25 @@ goes through a **pyramid of checks**:
 The most valuable step is the identities. They catch what neither the schema nor the eye will:
 if the agent mixed up columns or lost a sign, the balance sheet won't balance.
 
+### Information architecture (the dashboard)
+
+A web dashboard on FastAPI + React, brought up in Docker with one command. Four sections —
+matching exactly the four questions I ask my money:
+
+| Section | The question it answers |
+|---|---|
+| **Capital** | How much money there is in total and how it changed over time |
+| **Allocation** | How it's spread across categories and where it deviates from target |
+| **Portfolio** | What's actually held and what the return is per position |
+| **Issuers** | What's happening with the companies and which watches are set |
+
+The API serves data through flat endpoints, one per section; the frontend knows nothing about
+SQLite and computes no business logic — all the calculations stay in the scripts and the API.
+
+There's a separate showcase: company cards in Anytype, redrawn from the database by a script.
+The truth is always in the database and git; Anytype only displays data on issuers and assets,
+including significant corporate events, their news and so on.
+
 ## Architecture
 
 **Two data layers, and this is the project's main architectural decision:**
@@ -113,25 +132,6 @@ IFRS taking priority and RAS as the fallback.
 API, Telegram with vetted channels, an investment social network. On top of that, the project
 consumes data from the shared node of the neighbouring myTrade project — quotes and bonds aren't
 collected twice.
-
-## Information architecture (the dashboard)
-
-A web dashboard on FastAPI + React, brought up in Docker with one command. Four sections —
-matching exactly the four questions I ask my money:
-
-| Section | The question it answers |
-|---|---|
-| **Capital** | How much money there is in total and how it changed over time |
-| **Allocation** | How it's spread across categories and where it deviates from target |
-| **Portfolio** | What's actually held and what the return is per position |
-| **Issuers** | What's happening with the companies and which watches are set |
-
-The API serves data through flat endpoints, one per section; the frontend knows nothing about
-SQLite and computes no business logic — all the calculations stay in the scripts and the API.
-
-There's a separate showcase: company cards in Anytype, redrawn from the database by a script.
-The truth is always in the database and git; Anytype only displays data on issuers and assets,
-including significant corporate events, their news and so on.
 
 ## Project structure
 
@@ -220,7 +220,7 @@ job, understanding is.
 5. **Everything gets checked:** the schema, accounting identities, negative tests.
 6. No change is handed in without a green run; tests never reach the network.
 
-## Key mistakes and how we handled them
+## Key mistakes
 
 This is where it hurt.
 
@@ -311,7 +311,7 @@ you write that down?"
 almost always widespread.** And what gets recorded in the document isn't "what broke", it's how
 to tell this defect from a similar one and what to do about it.
 
-## Development plans
+## What's built and what's next
 
 **The system is built and working.** The plan holds 21 epics and 143 tasks, of which **126 are
 closed** — the statements pipeline, the news circuit, the dashboard, portfolios and returns,

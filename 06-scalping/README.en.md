@@ -68,7 +68,7 @@ wanders between **0.10 and 0.55 points**, and the break-even win rate after comm
 **≈61%**. So any idea is first tested against "will it survive the costs" and only then against
 "is it a pretty idea". Everything we tried mechanically got eaten by costs.
 
-## How it works
+## What it does and how it works
 
 **A triple loop, deliberately separated in time:**
 
@@ -112,6 +112,29 @@ scenarios: "outcome with numbers → interpretation → reaction → which butto
 trade" remains only where there's liquidity chaos: a spike, the first 15 minutes after a
 headline, a thin book.
 
+### Tools instead of screens
+
+There are no interfaces here — it's all CLI, all run in a container. Each tool answers one
+question in the learning cycle:
+
+| Tool | The question it answers | Status |
+|---|---|---|
+| **brief** — the morning screener | "what's worth scalping at all today": range, turnover, initial margin, affordability for the account, catalysts | 77 tests, live runs, weekdays 06:00 to Telegram |
+| **panel** — a live microstructure panel | "should I be trading now and which way is the pressure": regime, window delta, absorption, persistent walls, index breadth | 112 tests, a bar of 79 checks + 13 live ones |
+| **l2lab** — trainer and review | "what am I seeing in this frame" and "what actually happened in my trade": replay, quiz, post-mortem, flow, oracle | 27 tests, data kept outside git |
+| **tjournal** — automatic trade journal | "how do I actually trade": FIFO round trips → win rate, PF, expectancy, R | 5 tests |
+| **scalpcal** — an events and reminders hub | "what do I need to remember and when": events, individual reminders, digest, actions | 144 tests, in Docker on the shared bot server |
+
+Two tools live on the shared bot server on timers (the morning brief and the notifier); the rest
+run locally. The notifier is **cross-project**: neighbouring projects order deliveries through a
+contract, and we own it.
+
+⚠️ Thresholds in these tools are set **from measurement**. A recent example: the "dead
+instruments" cut-off computed the spread in ticks and threw out my main contract every day — its
+median spread is 5 ticks (3,774 samples from a live log), while on the neighbouring instrument
+the same amount of money fits inside 1 tick. The threshold was rewritten in terms of round-trip
+costs.
+
 ## Architecture
 
 **Two tracks of a different nature live in one repository**, and that's the project's main
@@ -137,29 +160,6 @@ is the pressure", but **gives no entry signals and sends no orders**
 **Every market value carries a source** (MOEX ISS / T-Invest / an L2 slice / a calculation). A
 number with no origin can't be checked, and a nice story about the market is more persuasive than
 data, which makes it more dangerous. If we don't know, it's empty with a note.
-
-## Tools instead of screens
-
-There are no interfaces here — it's all CLI, all run in a container. Each tool answers one
-question in the learning cycle:
-
-| Tool | The question it answers | Status |
-|---|---|---|
-| **brief** — the morning screener | "what's worth scalping at all today": range, turnover, initial margin, affordability for the account, catalysts | 77 tests, live runs, weekdays 06:00 to Telegram |
-| **panel** — a live microstructure panel | "should I be trading now and which way is the pressure": regime, window delta, absorption, persistent walls, index breadth | 112 tests, a bar of 79 checks + 13 live ones |
-| **l2lab** — trainer and review | "what am I seeing in this frame" and "what actually happened in my trade": replay, quiz, post-mortem, flow, oracle | 27 tests, data kept outside git |
-| **tjournal** — automatic trade journal | "how do I actually trade": FIFO round trips → win rate, PF, expectancy, R | 5 tests |
-| **scalpcal** — an events and reminders hub | "what do I need to remember and when": events, individual reminders, digest, actions | 144 tests, in Docker on the shared bot server |
-
-Two tools live on the shared bot server on timers (the morning brief and the notifier); the rest
-run locally. The notifier is **cross-project**: neighbouring projects order deliveries through a
-contract, and we own it.
-
-⚠️ Thresholds in these tools are set **from measurement**. A recent example: the "dead
-instruments" cut-off computed the spread in ticks and threw out my main contract every day — its
-median spread is 5 ticks (3,774 samples from a live log), while on the neighbouring instrument
-the same amount of money fits inside 1 tick. The threshold was rewritten in terms of round-trip
-costs.
 
 ## Project structure
 
@@ -222,7 +222,7 @@ comes to me is priority and run mode.
 7. **Green tests ≠ a working tool.** Any layer that talks to the network or someone else's
    database gets poked live at acceptance.
 
-## Key mistakes and how we handled them
+## Key mistakes
 
 **1. Green tests on a dead tool.**
 The coder wrote a solid exchange API layer — 19 green tests — but mixed up the exchange section:
@@ -277,7 +277,7 @@ name.
 it, and restored a mutation that had already been rolled back. So after stopping a loop we check
 that the coder is actually dead.
 
-## Development plans
+## What's built and what's next
 
 **The priority is the learning track.** But there are code changes too:
 

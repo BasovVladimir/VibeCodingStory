@@ -9,21 +9,6 @@
 **207 commits · July–August 2026 · architect Qwen 3.8 Max**
 The functionality works; ~30% of the plan is delivered.
 
-## The goal
-
-I play in a local indie band called paperbirds and manage it as well. Every independent band has
-the same problem: venues, open calls and festivals are scattered across dozens of Telegram
-channels, deadlines burn out unnoticed, and the contacts of art directors live in DMs and get
-lost.
-
-The system finds venues and open calls, filters out the obvious misses, keeps deadlines from
-slipping, drafts pitches and maintains a contacts database.
-
-**The main asset here isn't the code, it's the database.** The code could be rewritten in an
-evening; the collected art director contacts, the venue terms and the history of correspondence
-could not. The whole architecture is built around that, which is why data is never invented: no
-source means the field stays empty, and that's visible.
-
 ## How I work with the agent
 
 I have a few hours a week for this project, and the entire rhythm grew out of that.
@@ -47,7 +32,22 @@ One thing I hand to nobody — anything domain-related. The scoring scale, the r
 band's profile, the router prompts, the wording of pitches. That needs taste and knowledge of
 your own scene, and there's no machine check for it.
 
-## How it works
+## The goal
+
+I play in a local indie band called paperbirds and manage it as well. Every independent band has
+the same problem: venues, open calls and festivals are scattered across dozens of Telegram
+channels, deadlines burn out unnoticed, and the contacts of art directors live in DMs and get
+lost.
+
+The system finds venues and open calls, filters out the obvious misses, keeps deadlines from
+slipping, drafts pitches and maintains a contacts database.
+
+**The main asset here isn't the code, it's the database.** The code could be rewritten in an
+evening; the collected art director contacts, the venue terms and the history of correspondence
+could not. The whole architecture is built around that, which is why data is never invented: no
+source means the field stays empty, and that's visible.
+
+## What it does and how it works
 
 A closed path from a Telegram post to a row in the database that a human makes a decision on:
 
@@ -75,6 +75,25 @@ Four decisions that explain how it's built:
 - **Fragile integrations live in quarantine** — in a separate `sources/fragile/` folder. One
   external integration falling over doesn't take down the rest of the pipeline.
 
+### Information architecture
+
+React + Vite + TypeScript + Ant Design. Nine screens, grouped by funnel stage:
+
+| Screen | What it's for |
+|---|---|
+| **Inbox** | raw material after the router: confirm, correct, send to the database or reject |
+| **Venues** | the main asset: terms, contacts, the history of the relationship |
+| **Open calls** | applications with deadlines and requirements |
+| **Deadlines** | what's burning right now |
+| **Gigs** | confirmed performances |
+| **Todo** | what to do by hand: finish a pitch, send an email |
+| **Sources** | managing TG channels: add, check, disable |
+| **Console** | the analytics dashboard: funnel, conversion, database health |
+| **Admin** | utility operations |
+
+**Nothing** is published outwards: the database holds real personal contacts, and access to the
+interface is over an SSH tunnel only (at this stage of development).
+
 ## Architecture
 
 **The database is the centre of the system; everything else serves it.** SQLite, with the schema
@@ -100,25 +119,6 @@ system.
 **`store.upsert` doesn't overwrite what a human entered.** Re-collecting the same post will
 update the description and the terms, but won't touch the assigned score or the notes. Otherwise
 every collector run would erase the manual work — precisely the work all of this exists for.
-
-## Information architecture
-
-React + Vite + TypeScript + Ant Design. Nine screens, grouped by funnel stage:
-
-| Screen | What it's for |
-|---|---|
-| **Inbox** | raw material after the router: confirm, correct, send to the database or reject |
-| **Venues** | the main asset: terms, contacts, the history of the relationship |
-| **Open calls** | applications with deadlines and requirements |
-| **Deadlines** | what's burning right now |
-| **Gigs** | confirmed performances |
-| **Todo** | what to do by hand: finish a pitch, send an email |
-| **Sources** | managing TG channels: add, check, disable |
-| **Console** | the analytics dashboard: funnel, conversion, database health |
-| **Admin** | utility operations |
-
-**Nothing** is published outwards: the database holds real personal contacts, and access to the
-interface is over an SSH tunnel only (at this stage of development).
 
 ## Project structure
 
@@ -178,7 +178,7 @@ and works worse than doing it myself.
 6. **Secrets only in `.env`.** The repository is private, and the database holds real people's
    personal contacts.
 
-## Key mistakes and how we handled them
+## Key mistakes
 
 **1. `git add -A` destroyed someone else's work.**
 The working copy held uncommitted changes from the coder. `git add -A` swept them into the
@@ -221,7 +221,7 @@ checking did.
 at all; a red gate is returned without discussion. It isn't about distrusting the model: checking
 simply has to be done by a machine, because a human who doesn't read code can't do it.
 
-## Development plans
+## What's built and what's next
 
 Closed epics: the foundation and the band profile, the skeleton, the venues and open calls
 database, scoring, source monitoring, data maturity (series and seasons instead of duplicates),
