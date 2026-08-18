@@ -37,7 +37,9 @@ agents — write to me on Telegram: [@Basov_VA](https://t.me/Basov_VA).
 product, or an advanced agent, you don't have to understand the code and its details — thank
 you, AI, for that. But you have to understand, a thousand percent, what you want to get, how it
 should work, and how you'll know it's the thing you wanted. Hand the wheel to an AI completely
-and you won't understand where it takes you. I have a project called myTrade, where I do
+and you won't understand where it takes you.
+
+I have a project called myTrade, where I do
 algorithmic trading (details inside the project). I don't understand 100% of the maths or of
 the test logic, but I do understand logically how it should work, and I ask the AI questions —
 about logic and business, at every step. On top of that, and in parallel, the agent maintains a
@@ -53,7 +55,9 @@ unambiguously, what actually came out. Gates like that (see below) are the found
 tests. And since the same agent writes that code, to check whether the test itself is written
 correctly — see point 1. Yes, there is subagent work, which exists precisely to solve the
 "second pair of eyes" problem, but a subagent is the same kind of agent with the same inner
-world you'll never see into. Another example: my reports project, where a large task was
+world you'll never see into.
+
+Another example: my reports project, where a large task was
 processing PDF financial statements from many issuers. Claude diligently checked everything,
 loaded it into the database, moved files into "recognised" — and in the end it turned out that
 many files had been moved without any review at all, "just because". There were plenty of checks
@@ -65,7 +69,9 @@ done, 100%; verification that the work was done at all, 0%.
 Once it's big and heavy, only you can see that a change made for the latest feature might touch
 something from the very beginning of the project. Only you can "think wide" and see the
 whole thing from above. So I'll simply repeat point 1 here — you have to understand what you're
-building. Trust Claude with 100% of the project and you'll walk in circles, building a new piece
+building.
+
+Trust Claude with 100% of the project and you'll walk in circles, building a new piece
 at the end while breaking a piece at the start. For a more concrete sense of this, look at the
 architecture in myTrade or write to me.
 
@@ -73,7 +79,9 @@ architecture in myTrade or write to me.
 projects has a mandatory rule about AI comments. Claude — or any other model — leaves comments
 addressed to itself, right there in the text, so that it doesn't trip over the same rake twice
 and makes fewer mistakes overall. This works better than keeping documentation somewhere and
-making notes of that kind off to the side. There are plenty of ways to optimise development
+making notes of that kind off to the side.
+
+There are plenty of ways to optimise development
 (graphs, Qoder's wiki for development, and so on) — I'm sure you'll find the one you need. What
 I use is comments plus grep on the AI's side within a project. The main thing is to use
 something, and ideally from the very start of the project.
@@ -83,7 +91,6 @@ something, and ideally from the very start of the project.
 At any given moment I have **3–4 projects running autonomously** and **one that needs my full
 attention**. When I have time — weekends, say — the autonomous count swells to 5–6 (I try not to
 abuse my hardware too much).
-
 An autonomous project isn't a paused one: a coder loop is turning through a work order there,
 the gate decides on its own whether to accept a batch, and I step in at acceptance. The project
 that needs my attention is the one where something new is being designed — where my head is
