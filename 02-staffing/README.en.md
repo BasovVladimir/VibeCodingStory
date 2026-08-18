@@ -49,6 +49,13 @@ Then I go to the acceptance environment and click through it by hand. That's exa
 found the batch that passed the bar ten out of ten with completely non-working toggles: the test
 clicked where it found convenient, while a real user couldn't reach the element at all.
 
+**The agent writes comments for its own next session, and that's a mandatory part of the work.**
+In non-obvious places it leaves a comment prefixed `AI:` — what the logic here is and which
+rakes have already been stepped on. It's found by grep, so instead of documentation that has to
+be maintained separately and goes stale anyway, we get an index of dangerous places right inside
+the code. On a project with a release train that pays off fastest: when a hotfix is being made,
+the warning is visible right where the edit happens.
+
 ## The goal
 
 Outstaff recruitment works like this: client vacancies pour into Telegram channels, while the

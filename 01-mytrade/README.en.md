@@ -50,6 +50,16 @@ else broke where we hadn't touched anything in two months. The agent won't see t
 is its own task, while the system as a whole stays with me. Tests cover code well, but logic,
 "business value" and breadth of thought are beyond the agent for now...
 
+**I separately insist on the comments the agent writes to itself.** Context between sessions
+gets lost, so the code has to be self-documenting: a module docstring with a "PROBLEM/why"
+section, inline comments on non-obvious decisions — why, and why this way, not a retelling of
+the code. New rakes and non-obvious invariants get an `AI:` prefix. That's a greppable index:
+a single `grep -rn "AI:"` shows every dangerous spot in the codebase, and it needs no
+infrastructure at all. Old code doesn't get retrofitted. On top of that, a task tag right in
+the comment (`# 26.3.3`, `# INFRA-4`) — you search by it to find context in the plans and in
+the git history. I don't read the code myself, but this is the rule that keeps the agent from
+stepping on the same rake twice.
+
 ## The goal
 
 What I want here is multiplying capital. That immediately implies an unusual choice of metric.

@@ -43,6 +43,13 @@ done by the architect, and that isn't up for discussion.
 
 A report after each task, **no merges happen without me**, and a full test run before the merge.
 
+**The rule about comments is the strictest of all my projects here: without the tag, a rake
+isn't delivered.** If the agent steps on a rake, a comment with the `AI:` prefix is mandatory,
+and that gets checked at acceptance rather than left to its conscience. Plus a docstring "why",
+inline on anything non-obvious, and the task tag (`# Э1.2`). The project moves in bursts — went
+to the doctor, we go through it — and between those bursts everything not written down in the
+code itself is lost.
+
 ## The goal
 
 I wanted to build myself a virtual GP that would track my metrics and answer my questions

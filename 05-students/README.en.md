@@ -43,6 +43,12 @@ itself. The coder spins in an autonomous loop, but the runner neither merges nor
 comes out of its work is a branch and a report, then the architect decides and I accept. **No
 merges happen without me**, and the 50-check gate has to be green.
 
+**The agent comments the code for its own next self.** A docstring "why", inline on anything
+non-obvious, an `AI:` tag on new rakes and the work-order task tag — so that a month later
+what's clear isn't "what this line does" but why it is the way it is. The project moves in
+bursts between meetings with students, and without those marks every new session would start
+with archaeology.
+
 ## The goal
 
 I train full-stack analysts: a business school, a university, private mentoring. Around every

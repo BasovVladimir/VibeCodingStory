@@ -32,6 +32,12 @@ One thing I hand to nobody — anything domain-related. The scoring scale, the r
 band's profile, the router prompts, the wording of pitches. That needs taste and knowledge of
 your own scene, and there's no machine check for it.
 
+**Comments here are part of delivery, on par with a green gate.** The code is self-documenting
+and written in Russian, and the comments are for the next session: docstrings say "why", inline
+says why and why this way, not what the code does. New rakes get an `AI:` prefix, and
+`grep -rn "AI:" src/` collects them into a single list. Old code doesn't get retrofitted —
+otherwise it turns into endless tidying instead of work.
+
 ## The goal
 
 I play in a local indie band called paperbirds and manage it as well. Every independent band has

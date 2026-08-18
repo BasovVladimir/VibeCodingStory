@@ -33,6 +33,14 @@ the logic, not the code — by what rule is this number computed now, where does
 what happens if the source goes silent. Tests catch broken code well, but they never ask "does
 this number even make sense?"
 
+**The rules for comments live in a separate practice document** — [код-и-тесты.md](код-и-тесты.md)
+("code and tests"); my other projects take it as it is. The point: comments are written FOR THE
+NEXT SESSION, because context between sessions is lost and the comment is the only thing left to
+stand on. A module docstring "why/problem", inline comments on non-obvious decisions, an `AI:`
+prefix on new rakes — `grep -rn "AI:" scripts/` shows every dangerous spot at once, with no
+infrastructure. A plan task tag in the comment (`# A1`, `# B6`) ties a line of code to the
+reason it appeared at all.
+
 ## The goal
 
 I'm a long-term investor in the Russian market. A decision about an issuer is made from

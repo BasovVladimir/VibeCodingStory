@@ -44,6 +44,12 @@ I go in where a tool touches market numbers. Contract codes, thresholds, the sem
 direction in the tape — precisely the things a coder will write plausibly and wrongly, and the
 gate will happily let through.
 
+**The agent leaves comments for its future self.** A docstring "why", inline on anything
+non-obvious, an `AI:` tag on new rakes, the work-order tag right in the line (`# BRIEF-2`), all
+in Russian. Here it pays off especially well: thresholds and the semantics of market data look
+obvious right up until the next session — and then someone, me or the agent, "fixes" them back
+to something plausible.
+
 ## The goal
 
 I'm a long-term investor and in parallel I'm building an algorithmic trading robot (MyTrade).
