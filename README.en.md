@@ -8,13 +8,15 @@
 
 This project tells the story of my work as a vibecoder and the path I've taken working alongside
 AI agents. It's a living project — I'll be filling it out and expanding it regularly.
+You can simply read through it and take whatever is useful, or you can fork it, point your own
+agent at it and ask it to find features and details worth borrowing for your project.
 
 I'm a systems analyst and Tech & Area PO in fintech, a lecturer in systems analysis at HSE
 University, co-founder of an analysts' school, an investor and a musician.
 
 **I don't write code by hand.** I design systems and make the architecture and product calls,
 while AI agents do the implementation. Between April and August 2026 that's produced **ten
-systems and roughly 2,400 commits** — from algorithmic trading to a production platform that a
+systems and more than 2,000 commits** — from algorithmic trading to a production platform that a
 client actually uses. Seven of them are described here.
 
 The repositories themselves are private. This one is about the **method**: how the work is set
@@ -237,3 +239,7 @@ company's dealer, and a plant-care mobile app in Flutter.
   Sections about infrastructure and certain secrets have been cut, and the cuts are marked.
 - Completion percentages are against my own development plan. The functionality may work
   entirely while only a third of the plan is done.
+- **Licensed under [MIT](LICENSE).** Take whatever you need: copy it, change it, use it in your
+  own projects, commercial ones included. A link back is appreciated, but I don't require one.
+  And to be clear: the practices themselves belong to no one — the license only covers the text
+  of these files.
