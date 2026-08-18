@@ -1,10 +1,13 @@
-# How I Build Systems with AI Agents
+# What This Project Is About
 
 🇷🇺 [Русская версия](README.md)
 
 > **A note before you read.** Russian is my native language, so this translation exists to make
 > the material accessible to everyone. The full breadth of what I mean comes across best in the
 > [Russian version](README.md).
+
+This project tells the story of my work as a vibecoder and the path I've taken working alongside
+AI agents. It's a living project — I'll be filling it out and expanding it regularly.
 
 I'm a systems analyst and Tech & Area PO in fintech, a lecturer in systems analysis at HSE
 University, co-founder of an analysts' school, an investor and a musician.
