@@ -34,7 +34,7 @@ professional background, here is [my CV](CV_Basov_Vladimir.pdf) (in Russian).
 
 ## THE BASICS — the part that matters most (details further down)
 
-**THE BASICS** — AI writes the code. And code written by AI is what has to check that same AI. To pull that off, you have to learn point 1 and point 2 below.
+**THE BASICS** — AI writes the code. And the code the AI wrote has to check **the AI itself**. To pull that off, you have to learn point 1 and point 2 below.
 
 **1. You have to understand what you're building.** When you're making an application, a
 product, or an advanced agent, you don't have to understand the code and its details — thank
