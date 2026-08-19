@@ -29,7 +29,8 @@ collected along the way.
 polished, exhaustive write-up — I just needed to get the idea across.
 
 If you want details, want to see the code, or want an example of how I actually work with
-agents — write to me on Telegram: [@Basov_VA](https://t.me/Basov_VA).
+agents — write to me on Telegram: [@Basov_VA](https://t.me/Basov_VA). If you want to see my
+professional background, here is [my CV](CV_Basov_Vladimir.pdf) (in Russian).
 
 ## THE BASICS — the part that matters most (details further down)
 
